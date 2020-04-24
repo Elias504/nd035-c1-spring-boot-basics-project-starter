@@ -3,7 +3,6 @@ package com.udacity.jwdnd.course1.cloudstorage.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
@@ -48,7 +47,7 @@ public class EncryptionService {
         return new String(decryptedValue);
     }
 
-    public String getEncodedKey() {
+    public String generateEncodedKey() {
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);

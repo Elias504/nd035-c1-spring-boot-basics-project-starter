@@ -5,6 +5,8 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CredentialServiceImpl extends BaseUserRelatedServiceImpl<Credential> implements CredentialService {
@@ -20,6 +22,16 @@ public class CredentialServiceImpl extends BaseUserRelatedServiceImpl<Credential
     }
 
     @Override
+    public List<Credential> fetchAll() {
+        List<Credential> credentials = super.fetchAll();
+        return credentials.stream().map(credential -> {
+            String decryptedPassword = encryptionService.decryptValue(credential.getPassword(), credential.getKey());
+            credential.setDecryptedPassword(decryptedPassword);
+            return credential;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public Credential save(Credential entity) {
         updatePasswordEncryption(entity);
         return super.save(entity);
@@ -32,7 +44,7 @@ public class CredentialServiceImpl extends BaseUserRelatedServiceImpl<Credential
     }
 
     private void updatePasswordEncryption(Credential entity){
-        String encodedKey = encryptionService.getEncodedKey();
+        String encodedKey = encryptionService.generateEncodedKey();
         String encryptedPassword = encryptionService.encryptValue(entity.getPassword(), encodedKey);
         entity.setKey(encodedKey);
         entity.setPassword(encryptedPassword);

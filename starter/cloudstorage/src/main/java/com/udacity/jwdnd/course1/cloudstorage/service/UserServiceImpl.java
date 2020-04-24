@@ -5,8 +5,6 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -36,7 +34,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public User save(User entity) {
-        String encodedKey = encryptionService.getEncodedKey();
+        String encodedKey = encryptionService.generateEncodedKey();
         String encryptedPassword = encryptionService.encryptValue(entity.getPassword(), encodedKey);
 
         entity.setPassword(encryptedPassword);

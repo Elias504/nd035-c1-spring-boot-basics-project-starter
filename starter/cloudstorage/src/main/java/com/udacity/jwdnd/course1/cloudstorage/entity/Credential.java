@@ -9,6 +9,7 @@ public class Credential extends BaseUserRelatedEntity {
     private String username;
     private String key;
     private String password;
+    private String decryptedPassword;
 
     public String getUrl() {
         return url;
@@ -40,5 +41,13 @@ public class Credential extends BaseUserRelatedEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDecryptedPassword() {
+        return decryptedPassword;
+    }
+
+    public void setDecryptedPassword(String decryptedPassword) {
+        this.decryptedPassword = decryptedPassword;
     }
 }

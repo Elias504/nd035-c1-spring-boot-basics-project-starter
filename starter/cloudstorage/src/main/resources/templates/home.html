@@ -12,7 +12,7 @@
         <div class="container">
             <div id="logoutDiv">
                 <form th:action="@{/logout}" method="POST">
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                    <button id="logout" type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
@@ -49,10 +49,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="file: ${@fileController.fetchAll()}">
+                                <tr th:each="file: ${@fileController.fetchAll()}" th:id="${'file-' + file.id}">
                                     <td>
                                         <a target="_blank" class="btn btn-success">View</a>
-                                        <a class="btn btn-danger" th:href="@{/files/delete/{id}(id=${file.id})}">Delete</a>
+                                        <a class="btn btn-danger" th:href="@{/files/delete/{id}(id=${file.id})}" th:id="${'file-delete-' + file.id}">Delete</a>
                                     </td>
                                     <th scope="row" th:text="${file.filename}"></th>
                                 </tr>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" id="note-create" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -75,10 +75,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="note: ${@noteController.fetchAll()}" >
+                                    <tr th:each="note: ${@noteController.fetchAll()}" th:id="${'note-' + note.id}">
                                         <td>
-                                            <button type="button" class="btn btn-success" th:data-id="${note.id}" th:data-noteTitle="${note.noteTitle}" th:data-noteDescription="${note.noteDescription}" onclick="showNoteEditModal(this.getAttribute('data-id'), this.getAttribute('data-noteTitle'), this.getAttribute('data-noteDescription'))">Edit</button>
-                                            <a class="btn btn-danger" th:href="@{/notes/delete/{id}(id=${note.id})}">Delete</a>
+                                            <button type="button" class="btn btn-success" th:id="${'note-edit-' + note.id}" th:data-id="${note.id}" th:data-noteTitle="${note.noteTitle}" th:data-noteDescription="${note.noteDescription}" onclick="showNoteEditModal(this.getAttribute('data-id'), this.getAttribute('data-noteTitle'), this.getAttribute('data-noteDescription'))">Edit</button>
+                                            <a class="btn btn-danger" th:href="@{/notes/delete/{id}(id=${note.id})}" th:id="${'note-delete-' + note.id}">Delete</a>
                                         </td>
                                         <th scope="row" th:text="${note.noteTitle}"></th>
                                         <td th:text="${note.noteDescription}"></td>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" id="credential-create" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
 
@@ -166,10 +166,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="credential: ${@credentialController.fetchAll()}" >
+                                <tr th:each="credential: ${@credentialController.fetchAll()}" th:id="${'credential-' + credential.id}">
                                     <td>
-                                        <button type="button" class="btn btn-success" th:data-id="${credential.id}" th:data-url="${credential.url}" th:data-username="${credential.username}" th:data-password="${credential.password}" onclick="showCredentialEditModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'), this.getAttribute('data-password'))" >Edit</button>
-                                        <a class="btn btn-danger" th:href="@{/credentials/delete/{id}(id=${credential.id})}">Delete</a>
+                                        <button type="button" class="btn btn-success" th:id="${'credential-edit-' + credential.id}" th:data-id="${credential.id}" th:data-url="${credential.url}" th:data-username="${credential.username}" th:data-password="${credential.decryptedPassword}" onclick="showCredentialEditModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'), this.getAttribute('data-password'))" >Edit</button>
+                                        <a class="btn btn-danger" th:href="@{/credentials/delete/{id}(id=${credential.id})}" th:id="${'credential-delete-' + credential.id}">Delete</a>
                                     </td>
                                     <th scope="row" th:text="${credential.url}"></th>
                                     <td th:text="${credential.username}"></td>
